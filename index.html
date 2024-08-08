@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Investment Calculator</title>
+    <title>Yatırım Hesaplayıcı</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -75,9 +75,7 @@
         const months = 12;
 
         if (isNaN(initialInvestment) || initialInvestment <= 0) {
-          alert(
-            "Please enter a valid positive number for the initial investment."
-          );
+          alert("Lütfen geçerli bir pozitif başlangıç yatırımı girin.");
           return;
         }
 
@@ -93,16 +91,16 @@
         const annualReturnRate = (Math.pow(monthlyGrowthRate, 12) - 1) * 100;
 
         const result = `
-Initial Investment: $${initialInvestment.toFixed(2)}
-Monthly Growth Rate: ${((monthlyGrowthRate - 1) * 100).toFixed(2)}%
-Estimated Value After One Month: $${monthlyValue.toFixed(2)}
-Monthly Profit: $${monthlyProfit.toFixed(2)}
-Monthly Profit Rate: ${monthlyProfitPercentage.toFixed(2)}%
+İlk Yatırım: $${initialInvestment.toFixed(2)}
+Aylık Büyüme Oranı: ${((monthlyGrowthRate - 1) * 100).toFixed(2)}%
+Bir Ay Sonra Tahmini Değer: $${monthlyValue.toFixed(2)}
+Aylık Kar: $${monthlyProfit.toFixed(2)}
+Aylık Kar Oranı: ${monthlyProfitPercentage.toFixed(2)}%
 
-Estimated Value After One Year: $${finalValue.toFixed(2)}
-Annual Total Profit: $${totalProfit.toFixed(2)}
-Annual Total Profit Rate: ${totalProfitPercentage.toFixed(2)}%
-Annual Return Rate: ${annualReturnRate.toFixed(2)}%`;
+Bir Yıl Sonra Tahmini Değer: $${finalValue.toFixed(2)}
+Yıllık Toplam Kar: $${totalProfit.toFixed(2)}
+Yıllık Toplam Kar Oranı: ${totalProfitPercentage.toFixed(2)}%
+Yıllık Getiri Oranı: ${annualReturnRate.toFixed(2)}%`;
 
         document.getElementById("result").textContent = result;
       }
