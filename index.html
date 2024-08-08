@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Investment Calculator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        color: #2c3e50;
+      }
+      #calculator {
+        background-color: #f7f7f7;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      #result {
+        margin-top: 20px;
+        white-space: pre-line;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ÇıtıPıtının Eysın'a Hediyesi</h1>
+    <h2>Octobit Yatırım Kar Hesaplayıcı</h2>
+    <div id="calculator">
+      <label for="initialInvestment">İlk Yatırım (USD):</label>
+      <input
+        type="number"
+        id="initialInvestment"
+        min="0"
+        step="0.01"
+        required
+      />
+      <button onclick="calculateInvestment()">Hesapla</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function calculateInvestment() {
+        const initialInvestment = parseFloat(
+          document.getElementById("initialInvestment").value
+        );
+        const monthlyGrowthRate = 1.8562;
+        const months = 12;
+
+        if (isNaN(initialInvestment) || initialInvestment <= 0) {
+          alert(
+            "Please enter a valid positive number for the initial investment."
+          );
+          return;
+        }
+
+        const monthlyValue = initialInvestment * monthlyGrowthRate;
+        const finalValue =
+          initialInvestment * Math.pow(monthlyGrowthRate, months);
+
+        const monthlyProfit = monthlyValue - initialInvestment;
+        const totalProfit = finalValue - initialInvestment;
+        const monthlyProfitPercentage =
+          (monthlyProfit / initialInvestment) * 100;
+        const totalProfitPercentage = (totalProfit / initialInvestment) * 100;
+        const annualReturnRate = (Math.pow(monthlyGrowthRate, 12) - 1) * 100;
+
+        const result = `
+Initial Investment: $${initialInvestment.toFixed(2)}
+Monthly Growth Rate: ${((monthlyGrowthRate - 1) * 100).toFixed(2)}%
+Estimated Value After One Month: $${monthlyValue.toFixed(2)}
+Monthly Profit: $${monthlyProfit.toFixed(2)}
+Monthly Profit Rate: ${monthlyProfitPercentage.toFixed(2)}%
+
+Estimated Value After One Year: $${finalValue.toFixed(2)}
+Annual Total Profit: $${totalProfit.toFixed(2)}
+Annual Total Profit Rate: ${totalProfitPercentage.toFixed(2)}%
+Annual Return Rate: ${annualReturnRate.toFixed(2)}%`;
+
+        document.getElementById("result").textContent = result;
+      }
+    </script>
+  </body>
+</html>
