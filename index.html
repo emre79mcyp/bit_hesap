@@ -71,47 +71,46 @@
         const initialInvestment = parseFloat(
           document.getElementById("initialInvestment").value
         );
-        const monthlyGrowthRate = 1.8562;
-        const months = 12;
+        const eightDayGrowthRate = 1.195; // %19.5 büyüme oranı
+        const periodsInYear = 365 / 8; // 1 yılda 8 günlük dönem sayısı
+        const monthsInYear = 12; // 12 ay
+        const periodsInMonth = periodsInYear / monthsInYear; // Her ayda kaç dönem var?
 
         if (isNaN(initialInvestment) || initialInvestment <= 0) {
           alert("Lütfen geçerli bir pozitif başlangıç yatırımı girin.");
           return;
         }
 
-        let result = `İlk Yatırım: $${initialInvestment.toFixed(
-          2
-        )}\nAylık Büyüme Oranı: ${((monthlyGrowthRate - 1) * 100).toFixed(
-          2
-        )}%\n\n`;
+        let result = `İlk Yatırım: $${initialInvestment.toFixed(2)}\n`;
+        result += `8 Günlük Büyüme Oranı: ${
+          (eightDayGrowthRate - 1) * 100
+        }%\n\n`;
 
-        for (let month = 1; month <= months; month++) {
+        let currentValue = initialInvestment;
+        for (let month = 1; month <= monthsInYear; month++) {
           const monthlyValue =
-            initialInvestment * Math.pow(monthlyGrowthRate, month);
-          const monthlyProfit = monthlyValue - initialInvestment;
-          const monthlyProfitPercentage =
-            (monthlyProfit / initialInvestment) * 100;
+            currentValue * Math.pow(eightDayGrowthRate, periodsInMonth);
+          const monthlyProfit = monthlyValue - currentValue;
+          const monthlyProfitPercentage = (monthlyProfit / currentValue) * 100;
 
-          result += `${month}. Ay:\n  Tahmini Değer: $${monthlyValue.toFixed(
+          result += `${month}. Ay:\n  Toplam Değer: $${monthlyValue.toFixed(
             2
-          )}\n  Aylık Kar: $${monthlyProfit.toFixed(
+          )}\n  Net Kar: $${monthlyProfit.toFixed(
             2
           )}\n  Aylık Kar Oranı: ${monthlyProfitPercentage.toFixed(2)}%\n\n`;
+
+          currentValue = monthlyValue; // Update the value for the next month
         }
 
-        const finalValue =
-          initialInvestment * Math.pow(monthlyGrowthRate, months);
+        const finalValue = currentValue;
         const totalProfit = finalValue - initialInvestment;
         const totalProfitPercentage = (totalProfit / initialInvestment) * 100;
-        const annualReturnRate = (Math.pow(monthlyGrowthRate, 12) - 1) * 100;
 
-        result += `Bir Yıl Sonra Tahmini Değer: $${finalValue.toFixed(
+        result += `Bir Yıl Sonra Tahmini Değer: $${finalValue.toFixed(2)}\n`;
+        result += `Yıllık Toplam Kar: $${totalProfit.toFixed(2)}\n`;
+        result += `Yıllık Toplam Kar Oranı: ${totalProfitPercentage.toFixed(
           2
-        )}\nYıllık Toplam Kar: $${totalProfit.toFixed(
-          2
-        )}\nYıllık Toplam Kar Oranı: ${totalProfitPercentage.toFixed(
-          2
-        )}%\nYıllık Getiri Oranı: ${annualReturnRate.toFixed(2)}%`;
+        )}%\n`;
 
         document.getElementById("result").textContent = result;
       }
