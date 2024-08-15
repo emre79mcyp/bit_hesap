@@ -71,50 +71,38 @@
         const initialInvestment = parseFloat(
           document.getElementById("initialInvestment").value
         );
-        const eightDayGrowthRate = 1.195; // %19.5 büyüme oranı
-        const periodsInYear = 365 / 8; // 1 yılda 8 günlük dönem sayısı
-        const monthsInYear = 12; // 12 ay
-        const periodsInMonth = periodsInYear / monthsInYear; // Her ayda kaç dönem var?
+        const dailyReturnRate = 0.01; // Günlük %1 getiri
+        const daysInMonth = 30; // Ortalama bir ay 30 gün olarak hesaplanır
 
         if (isNaN(initialInvestment) || initialInvestment <= 0) {
           alert("Lütfen geçerli bir pozitif başlangıç yatırımı girin.");
           return;
         }
 
-        let result = `İlk Yatırım: $${initialInvestment.toFixed(2)}\n`;
-        result += `8 Günlük Büyüme Oranı: ${
-          (eightDayGrowthRate - 1) * 100
-        }%\n\n`;
+        let result = `İlk Yatırım: $${initialInvestment.toFixed(2)}\n\n`;
 
         let currentValue = initialInvestment;
-        for (let month = 1; month <= monthsInYear; month++) {
+        for (let month = 1; month <= 12; month++) {
+          const totalDays = month * daysInMonth;
           const monthlyValue =
-            currentValue * Math.pow(eightDayGrowthRate, periodsInMonth);
+            initialInvestment * Math.pow(1 + dailyReturnRate, totalDays);
           const monthlyProfit = monthlyValue - currentValue;
+          const totalProfit = monthlyValue - initialInvestment;
           const monthlyProfitPercentage = (monthlyProfit / currentValue) * 100;
 
           result += `${month}. Ay:\n  Toplam Değer: $${monthlyValue.toFixed(
             2
           )}\n  Net Kar: $${monthlyProfit.toFixed(
             2
-          )}\n  Aylık Kar Oranı: ${monthlyProfitPercentage.toFixed(2)}%\n\n`;
+          )}\n  Aylık Kar Oranı: ${monthlyProfitPercentage.toFixed(
+            2
+          )}%\n  Toplam Kar: $${totalProfit.toFixed(2)}\n\n`;
 
-          currentValue = monthlyValue; // Update the value for the next month
+          currentValue = monthlyValue; // Sonraki ay için değeri güncelle
         }
-
-        const finalValue = currentValue;
-        const totalProfit = finalValue - initialInvestment;
-        const totalProfitPercentage = (totalProfit / initialInvestment) * 100;
-
-        result += `Bir Yıl Sonra Tahmini Değer: $${finalValue.toFixed(2)}\n`;
-        result += `Yıllık Toplam Kar: $${totalProfit.toFixed(2)}\n`;
-        result += `Yıllık Toplam Kar Oranı: ${totalProfitPercentage.toFixed(
-          2
-        )}%\n`;
 
         document.getElementById("result").textContent = result;
       }
     </script>
   </body>
 </html>
-
