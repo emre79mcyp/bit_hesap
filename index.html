@@ -71,8 +71,9 @@
         const initialInvestment = parseFloat(
           document.getElementById("initialInvestment").value
         );
-        const dailyReturnRate = 0.01; // Günlük %1 getiri
+        const dailyReturnRate = 0.021; // Günlük %2.1 getiri
         const daysInMonth = 30; // Ortalama bir ay 30 gün olarak hesaplanır
+        const monthlyReduction = 0.05; // Her ay sonunda %5 düşüş
 
         if (isNaN(initialInvestment) || initialInvestment <= 0) {
           alert("Lütfen geçerli bir pozitif başlangıç yatırımı girin.");
@@ -84,11 +85,14 @@
         let currentValue = initialInvestment;
         for (let month = 1; month <= 12; month++) {
           const totalDays = month * daysInMonth;
-          const monthlyValue =
-            initialInvestment * Math.pow(1 + dailyReturnRate, totalDays);
+          let monthlyValue =
+            currentValue * Math.pow(1 + dailyReturnRate, daysInMonth);
           const monthlyProfit = monthlyValue - currentValue;
           const totalProfit = monthlyValue - initialInvestment;
           const monthlyProfitPercentage = (monthlyProfit / currentValue) * 100;
+
+          // Apply 5% reduction at the end of each month
+          monthlyValue *= (1 - monthlyReduction);
 
           result += `${month}. Ay:\n  Toplam Değer: $${monthlyValue.toFixed(
             2
@@ -106,3 +110,4 @@
     </script>
   </body>
 </html>
+
